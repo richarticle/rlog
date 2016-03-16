@@ -8,7 +8,7 @@ type syslogWriter struct {
 
 // newSyslogWriter creates a syslog writer
 func newSyslogWriter(tag string) (*syslogWriter, error) {
-	return &syslogWriter{w}, nil
+	return &syslogWriter{}, nil
 }
 
 // logln uses syslog.Writer to output the message
