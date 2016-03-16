@@ -6,6 +6,7 @@ package rlog
 import (
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"time"
@@ -72,6 +73,19 @@ func NewLogger(writerType, tag string, level int, flag int) (*Logger, error) {
 	default:
 		return nil, errors.New("Invalid writer type" + writerType)
 	}
+
+	if err != nil {
+		return nil, err
+	}
+	return &logger, nil
+}
+
+// NewIoLogger provides the flexibility that users can provide their io.Writer
+func NewIoLogger(w io.Writer, tag string, level int, flag int) (*Logger, error) {
+	var err error
+	logger := Logger{Tag: tag, Level: level, WriterType: "io", Flag: flag}
+
+	logger.Writer, err = newIoWriter(w)
 
 	if err != nil {
 		return nil, err
